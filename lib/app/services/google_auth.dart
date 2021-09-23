@@ -32,4 +32,10 @@ class GoogleAuth {
     await googleSignIn.signOut();
     print("User Signed Out");
   }
+
+  String getCurrentUserId() {
+    User user = auth.currentUser!;
+    print(user.displayName);
+    return user.uid;
+  }
 }

@@ -59,9 +59,10 @@ class QuizView extends GetView<QuizController> {
                     style: TextStyle(fontSize: 20, color: AppColors.textBlack),
                   ),
                 ),
-                FutureBuilder(
-                  future:
-                      controller.firestoreService.getScore(controller.user.uid),
+                StreamBuilder(
+                  stream: controller.firestoreService.users
+                      .doc(controller.user.uid)
+                      .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -79,11 +80,11 @@ class QuizView extends GetView<QuizController> {
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Text(
-                                snapshot.data[index].toString(),
+                                snapshot.data[index]['score'],
                                 style: AppTextStyle.semiBoldStyle(fontSize: 14),
                               ),
                               subtitle: Text(
-                                "Date time",
+                                snapshot.data[index].toString(),
                                 style: AppTextStyle.regularStyle(fontSize: 12),
                               ),
                             );
@@ -100,7 +101,9 @@ class QuizView extends GetView<QuizController> {
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.QUESTIONS, arguments: controller.user.uid);
+              Get.toNamed(
+                Routes.QUESTIONS,
+              );
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),

@@ -22,9 +22,5 @@ class FirestoreService {
         .set({"score": score});
   }
 
-  Future<void> getScore(
-    String userId,
-  ) async {
-    await users.doc(userId).collection("score").get();
-  }
+  
 }
