@@ -33,6 +33,7 @@ dependencies:
   google_sign_in: ^5.1.0
   json_serializable:
   intl: 
+  get_storage:
 
 dev_dependencies:
   flutter_test:

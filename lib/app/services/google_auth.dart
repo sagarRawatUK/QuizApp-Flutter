@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -38,4 +37,13 @@ class GoogleAuth {
     print(user.displayName);
     return user.uid;
   }
+
+  User getCurrentUser() {
+    User user = auth.currentUser!;
+    return user;
+  }
+  // Future<User> getUserByuserId(String userUid) async {
+  //   User user = await auth.!;
+  //   return user;
+  // }
 }

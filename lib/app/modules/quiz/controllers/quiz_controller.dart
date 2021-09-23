@@ -7,7 +7,11 @@ class QuizController extends GetxController {
   User user = Get.arguments;
 
   @override
-  void onInit() {}
+  void onInit() {
+    if (user == null) {
+      user = FirebaseAuth.instance.currentUser!;
+    }
+  }
 
   @override
   void onReady() {}

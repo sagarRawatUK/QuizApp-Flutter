@@ -19,7 +19,7 @@ class ResultController extends GetxController {
     //   title.value = "Marvellous";
     // else if (Get.arguments == 20) title.value = "Phenomenol";
 
-    Future.delayed(Duration(seconds: 10), () => Get.offNamed(Routes.HOME));
+    Future.delayed(Duration(seconds: 10), () => Get.offNamed(Routes.QUIZ));
   }
 
   // void uploadScore() async {
