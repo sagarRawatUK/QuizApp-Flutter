@@ -191,9 +191,9 @@ class QuestionsView extends GetView<QuestionsController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.offNamed(
+                          Get.toNamed(
                             Routes.RESULT,
-                            // arguments: controller.score.value,
+                            arguments: controller.score.value,
                           );
                         },
                         child: Container(

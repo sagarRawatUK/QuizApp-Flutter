@@ -8,16 +8,15 @@ import 'app/routes/app_pages.dart';
 
 String initialRoute = "";
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
   await Firebase.initializeApp();
   await GetStorage.init();
   bool isLoggedIn = GetStorage().read('isLoggedIn') ?? false;
   if (isLoggedIn)
     initialRoute = Routes.QUIZ;
   else
-    initialRoute = AppPages.INITIAL;
+    initialRoute = Routes.HOME;
   runApp(MyApp());
 }
 

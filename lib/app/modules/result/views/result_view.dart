@@ -36,7 +36,7 @@ class ResultView extends GetView<ResultController> {
                   backgroundColor: AppColors.correct,
                   radius: 80,
                   child: Text(
-                    "0/15",
+                    "${controller.score}/15",
                     style: AppTextStyle.boldStyle(
                         fontSize: 60, color: Colors.white),
                   ),
