@@ -30,7 +30,7 @@ class HomeController extends GetxController {
         barrierDismissible: false);
     await googleAuth.signin().then((User user) {
       uploadData(user.uid, user.displayName!);
-      GetStorage().write('isLoggedIn', "true");
+      GetStorage().write('isLoggedIn', true);
       GetStorage().write('userId', user.uid);
 
       Get.back();

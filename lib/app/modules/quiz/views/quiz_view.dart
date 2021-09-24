@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz/app/commons/style/colors.dart';
@@ -59,11 +60,15 @@ class QuizView extends GetView<QuizController> {
                     style: TextStyle(fontSize: 20, color: AppColors.textBlack),
                   ),
                 ),
-                StreamBuilder(
-                  stream: controller.firestoreService.users
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
                       .doc(controller.user.uid)
+                      .collection("score")
                       .snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+                    print(controller.user.uid);
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(
@@ -72,27 +77,32 @@ class QuizView extends GetView<QuizController> {
                       );
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 1,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text(
-                                snapshot.data[index]['score'],
-                                style: AppTextStyle.semiBoldStyle(fontSize: 14),
-                              ),
-                              subtitle: Text(
-                                snapshot.data[index].toString(),
-                                style: AppTextStyle.regularStyle(fontSize: 12),
-                              ),
-                            );
-                          },
-                        ),
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                              snapshot.data!.docs.first['score'].toString(),
+                              style: AppTextStyle.semiBoldStyle(
+                                  fontSize: 14, color: Colors.black),
+                            ),
+                            subtitle: Text(
+                              snapshot.data!.docs.first.toString(),
+                              style: AppTextStyle.regularStyle(fontSize: 12),
+                            ),
+                          );
+                        },
                       );
-                    } else
+                    } else if (!snapshot.hasData) {
+                      print('No Dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                       return SizedBox.shrink();
+                    } else {
+                      print(
+                          snapshot.data!.docs.first['score'] + "aaaaaaaaaaaa");
+                      return SizedBox.shrink();
+                    }
                   },
                 ),
                 SizedBox(height: 10),
