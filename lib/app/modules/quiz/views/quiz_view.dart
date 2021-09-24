@@ -19,7 +19,7 @@ class QuizView extends GetView<QuizController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(controller.user.photoURL!),
+              backgroundImage: NetworkImage(controller.user!.photoURL!),
             ),
           )
         ],
@@ -46,7 +46,7 @@ class QuizView extends GetView<QuizController> {
                 ),
                 Center(
                   child: Text(
-                    "Welcome, ${controller.user.displayName!.split(' ')[0]}",
+                    "Welcome, ${controller.user!.displayName!.split(' ')[0]}",
                     style: AppTextStyle.boldStyle(
                         fontSize: 22, color: Colors.grey.shade800),
                   ),
@@ -63,12 +63,11 @@ class QuizView extends GetView<QuizController> {
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('users')
-                      .doc(controller.user.uid)
+                      .doc(controller.user!.uid)
                       .collection("score")
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-                    print(controller.user.uid);
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(
@@ -82,21 +81,21 @@ class QuizView extends GetView<QuizController> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                              snapshot.data!.docs.first['score'].toString(),
+                          return Row(children: [
+                            Text(
+                              snapshot.data!.docs[index]['score'].toString(),
                               style: AppTextStyle.semiBoldStyle(
                                   fontSize: 14, color: Colors.black),
                             ),
-                            subtitle: Text(
-                              snapshot.data!.docs.first.toString(),
+                            Text(
+                              snapshot.data!.docs[index].toString(),
                               style: AppTextStyle.regularStyle(fontSize: 12),
                             ),
-                          );
+                          ]);
                         },
                       );
                     } else if (!snapshot.hasData) {
-                      print('No Dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                      print('No Dataa');
                       return SizedBox.shrink();
                     } else {
                       print(
